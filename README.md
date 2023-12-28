@@ -201,6 +201,7 @@ Install the required dependencies, including mysql2, inquirer, and any other lib
 -- $ npm i inquirer@8.2.4
 
 -- $ npm install express
+npm install nodemon
 
 Create the database:
 
@@ -209,10 +210,8 @@ Create the database:
 
 Set up a MySQL database to store the department, role, and employee data.
 
-CREATE TABLE department (
-  id INT PRIMARY KEY AUTO_INCREMENT,
-  name VARCHAR(30)
-);
+CREATE TABLES in schema.sql
+populate dummy data in seeds.sql
 
 
 
