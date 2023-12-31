@@ -206,16 +206,15 @@ npm install nodemon
 Create the database:
 
 -- $ mysql -u root -p
- -- CREATE DATABASE employee_tracker;
+
 
 Set up a MySQL database to store the department, role, and employee data.
-
-CREATE TABLES in schema.sql
-populate dummy data in seeds.sql
+Create schema. sql and seeds.sql
 
 
 
 Create the necessary tables and define the relationships between them.
+
 
 Set up the connection:
 
@@ -227,7 +226,7 @@ Export the connection object to be used in other files.
 
 Create the models:
 
-Create JavaScript files to define the models for departments, roles, and employees.
+## Create JavaScript files to define the models for departments, roles, and employees.
 
 Use the Sequelize ORM to define the table structure and relationships.
 

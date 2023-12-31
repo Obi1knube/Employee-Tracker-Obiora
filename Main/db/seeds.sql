@@ -1,30 +1,26 @@
-SE employee_tracker_db
-
--- Insert data into the department table
+-- Insert departments
 INSERT INTO department (name) VALUES
-  ('Sales'),
   ('Marketing'),
   ('Finance'),
   ('Human Resources');
 
--- Insert data into the role table
+-- Insert roles
 INSERT INTO role (title, salary, department_id) VALUES
-  ('Sales Manager', 60000, 1),
-  ('Sales Representative', 40000, 1),
-  ('Marketing Manager', 55000, 2),
-  ('Marketing Coordinator', 35000, 2),
-  ('Finance Manager', 65000, 3),
-  ('Financial Analyst', 45000, 3),
-  ('HR Manager', 50000, 4),
-  ('HR Assistant', 30000, 4);
+  ('Marketing Manager', 60000, 1),
+  ('Marketing Specialist', 40000, 1),
+  ('Financial Analyst', 55000, 2),
+  ('Accountant', 45000, 2),
+  ('HR Manager', 65000, 3),
+  ('HR Assistant', 35000, 3);
 
--- Insert data into the employee table
+-- Insert employees
 INSERT INTO employee (first_name, last_name, manager_id, role_id) VALUES
   ('John', 'Doe', NULL, 1),
   ('Jane', 'Smith', 1, 2),
   ('Mike', 'Johnson', 1, 2),
-  ('Sarah', 'Williams', 1, 2),
-  ('David', 'Brown', 1, 2),
-  ('Emily', 'Davis', 1, 2),
-  ('Michael', 'Miller', 1, 2),
-  ('Jessica', 'Anderson', 1, 2);
+  ('Emily', 'Davis', 3, 3),
+  ('David', 'Brown', 3, 3),
+  ('Sarah', 'Wilson', 5, 4),
+  ('Michael', 'Taylor', 5, 4),
+  ('Jessica', 'Anderson', 6, 5),
+  ('Kevin', 'Clark', 6, 5);
