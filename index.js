@@ -128,7 +128,21 @@ async function addDepartment() {
 async function addRole() {
   // Implement the prompts to collect role information (name, salary, department)
   const { roleName, salary, departmentId } = await inquirer.prompt([
-    // prompts here
+    {
+      type: "input",
+      name: "roleName",
+      message: "Enter the name of the role:",
+    },
+    {
+      type: "input",
+      name: "salary",
+      message: "Enter the salary for the role:",
+    },
+    {
+      type: "input",
+      name: "departmentId",
+      message: "Enter the department ID for the role:",
+    },
   ]);
 
   // Implement the SQL query to add the role to the database
@@ -150,6 +164,26 @@ async function addEmployee() {
   // Implement the prompts to collect employee information (first name, last name, role, manager)
   const { firstName, lastName, roleId, managerId } = await inquirer.prompt([
     // prompts here
+    {
+      type: "input",
+      name: "firstName",
+      message: "Enter the first name:",
+    },
+    {
+      type: "input",
+      name: "lastName",
+      message: "Enter the last name:",
+    },
+    {
+      type: "input",
+      name: "roleId",
+      message: "Enter the  ID for the role:",
+    },
+    {
+      type: "input",
+      name: "managerId",
+      message: "Enter the  ID for the manager:",
+    },
   ]);
 
   // Implement the SQL query to add the employee to the database
@@ -166,42 +200,75 @@ async function addEmployee() {
   );
 }
 
-// Function to update an employee role
 async function updateEmployeeRole() {
-  //select all employees
-  const employee = await db.query("SELECT * FROM employees", (err, results) => {
-    if (err) throw err;
-    //map through results, because we want to return an array of employees, including the id and employee name
-    //return results.map
-  });
+  try {
+    // Select all employees
+    const employees = await new Promise((resolve, reject) => {
+      db.query("SELECT * FROM employees", (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
 
-  // Implement the prompts to select an employee and enter the new role
-  const { employeeId, roleId } = await inquirer.prompt([
-    // prompts here
-    {
-      type: "list",
-      name: "employee",
-      message: "Please pick an employee to update",
-      choices: employee,
-    },
-    //do the same for role
-  ]);
+    // Select all roles
+    const roles = await new Promise((resolve, reject) => {
+      db.query("SELECT * FROM roles", (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
 
-  //1. name, extract the id number, hint: split
+    // Prompt the user to select an employee and enter the new role
+    const { employeeId, roleId } = await inquirer.prompt([
+      {
+        type: "list",
+        name: "employeeId",
+        message: "Please select an employee to update:",
+        choices: employees.map((employee) => ({
+          name: `${employee.first_name} ${employee.last_name}`,
+          value: employee.id,
+        })),
+      },
+      {
+        type: "list",
+        name: "roleId",
+        message: "Please select the new role for the employee:",
+        choices: roles.map((role) => ({
+          name: role.title,
+          value: role.id,
+        })),
+      },
+    ]);
 
-  // Implement the SQL query to update the employee's role in the database
-  db.query(
-    "UPDATE employees SET role_id = ? WHERE id = ?",
-    [roleId, employeeId],
-    (err, results) => {
-      if (err) throw err;
-      // Display a success message
-      console.log("Employees role has been updated successfully !");
-      // Call the main menu function again to display the menu options
-      mainMenu();
-    }
-  );
+    // Update the employee's role in the database
+    await new Promise((resolve, reject) => {
+      db.query(
+        "UPDATE employees SET role_id = ? WHERE id = ?",
+        [roleId, employeeId],
+        (err, result) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(result);
+          }
+        }
+      );
+    });
+
+    // Display a success message
+    console.log("Employee role has been updated successfully!");
+
+    // Call the main menu function again to display the menu options
+    mainMenu();
+  } catch (err) {
+    console.error(err);
+  }
 }
-
 // Call the init() function to start the application
 init();
