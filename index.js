@@ -88,16 +88,34 @@ function viewAllRoles() {
   });
 }
 
+// // Function to view all employees
+// function viewAllEmployees() {
+//   // Implement the SQL query to retrieve employee data including ids, names, job titles, departments, salaries, and managers
+//   db.query("SELECT employees.first_name, employees.last_name, roles.title, roles.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager
+//   FROM employees
+//   INNER JOIN roles ON employees.role_id = roles.id
+//   LEFT JOIN employees AS manager ON employees.manager_id = manager.id;", (err, results) => {
+//     if (err) throw err;
+//     // Display the results in a formatted table
+//     console.table(results);
+//     // Call the main menu function again to display the menu options
+//     mainMenu();
+//   });
+// }
+
 // Function to view all employees
 function viewAllEmployees() {
   // Implement the SQL query to retrieve employee data including ids, names, job titles, departments, salaries, and managers
-  db.query("SELECT * FROM employees", (err, results) => {
-    if (err) throw err;
-    // Display the results in a formatted table
-    console.table(results);
-    // Call the main menu function again to display the menu options
-    mainMenu();
-  });
+  db.query(
+    "SELECT employees.first_name, employees.last_name, roles.title, roles.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employees INNER JOIN roles ON employees.role_id = roles.id LEFT JOIN employees AS manager ON employees.manager_id = manager.id;",
+    (err, results) => {
+      if (err) throw err;
+      // Display the results in a formatted table
+      console.table(results);
+      // Call the main menu function again to display the menu options
+      mainMenu();
+    }
+  );
 }
 
 // Function to add a department
